@@ -13,11 +13,11 @@ Window {
         listModel: ListModel {
             ListElement {
                 name: "Abbas"
-                icon: "hand.png"
+                color: 'blue'
             }
             ListElement {
                 name: "Akbar"
-                icon: "hand.png"
+                color: 'red'
             }
         }
     }

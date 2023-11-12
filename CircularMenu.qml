@@ -7,34 +7,27 @@ Item {
     // properties
     property double outerRadius: 400
     property double innerRadius: 300
+    property double startAngle: 180
+
     property ListModel listModel: ListModel{}
 
     anchors.fill: parent
 
-    CircularCut {
-        cutText: 'red'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 90
-        cutLen: 90
-    }
 
-    CircularCut {
-        cutText: 'purple'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 0
-        cutLen: 45
-        cutColor: 'purple'
-    }
+    Repeater {
+        anchors.fill: parent
+        model: listModel.count
 
-    CircularCut {
-        cutText: 'blue'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 180
-        cutLen: 90
-        cutColor: 'blue'
+        CircularCut {
+            required property var model
+
+            cutText: listModel.get(model.index).name
+            cutOuterRadius: outerRadius
+            cutInnerRadius: innerRadius
+            cutStartAngle: startAngle + model.index * 45
+            cutLen: 45
+            cutColor: listModel.get(model.index).color
+        }
     }
 
     RowLayout {
@@ -67,7 +60,7 @@ Item {
             Layout.fillHeight: true
 
             onClicked: {
-                listModel.append({name: nameField.text, iconSource: 'hand.png'})
+                listModel.append({name: nameField.text, color: 'purple'})
             }
         }
 
