@@ -1,5 +1,4 @@
 import QtQuick 2.15
-import QtQuick.Shapes
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -11,30 +10,44 @@ Item {
 
     anchors.fill: parent
 
-    CircularCut {
-        cutText: 'red'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 90
-        cutLen: 90
-    }
+    Canvas {
+        id: cMenuCanvas
 
-    CircularCut {
-        cutText: 'purple'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 0
-        cutLen: 45
-        cutColor: 'purple'
-    }
+        width: outerRadius * 2
+        height: outerRadius * 2
+        anchors.centerIn: parent
 
-    CircularCut {
-        cutText: 'blue'
-        cutOuterRadius: outerRadius
-        cutInnerRadius: innerRadius
-        cutStartAngle: 180
-        cutLen: 90
-        cutColor: 'blue'
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.reset();
+
+            var centreX = width / 2;
+            var centreY = height / 2;
+            var startCycle = Math.PI;
+            var curveLen = Math.PI * 0.4;
+            var curvesGap = 0.05;
+
+            for (var i = 0; i < listModel.count; i++) {
+                var startAngle = startCycle + curveLen * i;
+                var endAngle = startAngle + curveLen - curvesGap;
+
+                // outer circle
+                ctx.beginPath();
+                ctx.fillStyle = "gold";
+                ctx.moveTo(centreX, centreY);
+                ctx.arc(centreX, centreY, outerRadius, startAngle, endAngle, false);
+                ctx.lineTo(centreX, centreY);
+                ctx.fill();
+
+                // inner circle
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.moveTo(centreX, centreY);
+                ctx.arc(centreX, centreY, innerRadius, startAngle, endAngle, false);
+                ctx.lineTo(centreX, centreY);
+                ctx.fill();
+            }
+        }
     }
 
     RowLayout {
@@ -68,6 +81,7 @@ Item {
 
             onClicked: {
                 listModel.append({name: nameField.text, iconSource: 'hand.png'})
+                cMenuCanvas.requestPaint()
             }
         }
 
@@ -82,6 +96,7 @@ Item {
 
                 if (listModel.count > 0)
                     listModel.remove(0)
+                cMenuCanvas.requestPaint()
             }
         }
     }
@@ -96,7 +111,7 @@ Item {
         width: outerRadius * 2
         height: outerRadius * 2
         radius: outerRadius
-        opacity: 0.4
+        opacity: 0.5
 
         color: 'pink'
         anchors.centerIn: parent
@@ -107,10 +122,12 @@ Item {
             width: innerRadius * 2
             height: innerRadius * 2
             radius: innerRadius
-            opacity: 0.4
+            opacity: 0.5
 
             color: 'gold'
             anchors.centerIn: parent
         }
     }
 }
+
+

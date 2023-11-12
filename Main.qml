@@ -6,13 +6,33 @@ Window {
     width: 900
     height: 900
 
+
     CircularMenu {
         outerRadius: 200
         innerRadius: 150
+        listModel: ListModel {
+            ListElement {
+                name: "Abbas"
+                icon: "hand.png"
+            }
+            ListElement {
+                name: "Akbar"
+                icon: "hand.png"
+            }
+        }
     }
 
-//    ExampleCircularText {}
 
-//    ExampleCanvas1 { anchors.centerIn: parent }
+//    CanvasVersion {}
+
+
+//    ExampleCircularText {}
 //    ExampleCanvasCircle { anchors.centerIn: parent }
+//    ExampleCanvas1 { anchors.centerIn: parent }
+
+
+//    ExampleShape1 {}
+//    ExampleShape2 {}
+
+
 }
