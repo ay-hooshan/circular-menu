@@ -6,11 +6,13 @@ Item {
     // properties
     property double outerRadius: 400
     property double innerRadius: 300
-    property ListModel listModel
+    property ListModel listModel: ListModel{}
 
     anchors.fill: parent
 
     Canvas {
+        id: cMenuCanvas
+
         width: outerRadius * 2
         height: outerRadius * 2
         anchors.centerIn: parent
@@ -21,22 +23,28 @@ Item {
 
             var centreX = width / 2;
             var centreY = height / 2;
+            var startCycle = Math.PI;
 
-            // outer circle
-            ctx.beginPath();
-            ctx.fillStyle = "red";
-            ctx.moveTo(centreX, centreY);
-            ctx.arc(centreX, centreY, outerRadius, -Math.PI * 0.8, -Math.PI * 0.2, false);
-            ctx.lineTo(centreX, centreY);
-            ctx.fill();
+            for (var i = 0; i < listModel.count; i++) {
+                var startAngle = startCycle + Math.PI * 0.2 * i;
+                var endAngle = startAngle + 0.5;
 
-            // inner circle
-            ctx.beginPath();
-            ctx.fillStyle = "white";
-            ctx.moveTo(centreX, centreY);
-            ctx.arc(centreX, centreY, innerRadius, -Math.PI * 0.8, -Math.PI * 0.2, false);
-            ctx.lineTo(centreX, centreY);
-            ctx.fill();
+                // outer circle
+                ctx.beginPath();
+                ctx.fillStyle = "red";
+                ctx.moveTo(centreX, centreY);
+                ctx.arc(centreX, centreY, outerRadius, startAngle, endAngle, false);
+                ctx.lineTo(centreX, centreY);
+                ctx.fill();
+
+                // inner circle
+                ctx.beginPath();
+                ctx.fillStyle = "white";
+                ctx.moveTo(centreX, centreY);
+                ctx.arc(centreX, centreY, innerRadius, startAngle, endAngle, false);
+                ctx.lineTo(centreX, centreY);
+                ctx.fill();
+            }
         }
     }
 
@@ -55,6 +63,7 @@ Item {
 
             onClicked: {
                 listModel.append({name: 'Abbas', iconSource: 'hand.png'})
+                cMenuCanvas.requestPaint()
             }
         }
 
@@ -65,7 +74,12 @@ Item {
             Layout.fillHeight: true
 
             onClicked: {
-                console.log(listModel)
+                console.log('items:')
+                console.log(listModel.count)
+
+                if (listModel.count > 0)
+                    listModel.remove(0)
+                cMenuCanvas.requestPaint()
             }
         }
     }
