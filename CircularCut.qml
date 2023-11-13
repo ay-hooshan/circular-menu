@@ -7,7 +7,7 @@ Item {
     property double cutOuterRadius: 400
     property double cutInnerRadius: 300
     property color cutColor: "red"
-    property double cutLen: cutText.length * 10
+    property double cutLen: cutText.length * 9
     required property double cutStartAngle
 
     // functions

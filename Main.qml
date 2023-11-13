@@ -8,8 +8,21 @@ Window {
 
 
     CircularMenu {
-        outerRadius: 200
-        innerRadius: 150
+//        outerRadius: 200
+//        innerRadius: 150
+
+        PropertyAnimation on outerRadius {
+            from: 0
+            to: 200
+            duration: 500
+        }
+
+        PropertyAnimation on innerRadius {
+            from: 0
+            to: 150
+            duration: 500
+        }
+
         listModel: ListModel {
             ListElement {
                 name: "Abbas"

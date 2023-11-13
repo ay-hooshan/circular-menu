@@ -24,7 +24,7 @@ Item {
             cutOuterRadius: outerRadius
             cutInnerRadius: innerRadius
             cutStartAngle: startAngle + model.index * 45
-            cutLen: 45
+//            cutLen: 45
             cutColor: listModel.get(model.index).color
             onCutClicked: {
                 console.log(listModel.get(model.index).name)
@@ -95,14 +95,14 @@ Item {
     Rectangle {
         id: fakeOuterCircle
 
-        visible: false
+//        visible: false
 
         width: outerRadius * 2
         height: outerRadius * 2
         radius: outerRadius
-        opacity: 0.4
-
-        color: 'pink'
+//        opacity: 0.2
+        color: 'transparent'
+//        color: 'pink'
         anchors.centerIn: parent
 
         Rectangle {
@@ -111,7 +111,7 @@ Item {
             width: innerRadius * 2
             height: innerRadius * 2
             radius: innerRadius
-            opacity: 0.4
+            opacity: 0.6
 
             color: 'gold'
             anchors.centerIn: parent
