@@ -7,7 +7,10 @@ Item {
     // properties
     property double outerRadius: 400
     property double innerRadius: 300
-    property double startAngle: -90 - 45 * listModel.count / 2
+
+    property double startAngle: -90 - currentCutLen * listModel.count / 2
+    property double currentCutLen: 45
+    readonly property double scaleNameLen: 10
 
     property ListModel listModel: ListModel{}
 
@@ -23,12 +26,19 @@ Item {
             cutText: listModel.get(model.index).name
             cutOuterRadius: outerRadius
             cutInnerRadius: innerRadius
-            cutStartAngle: startAngle + model.index * 45
-//            cutLen: 45
+            cutStartAngle: startAngle + model.index * currentCutLen
+            cutLen: currentCutLen
             cutColor: listModel.get(model.index).color
             onCutClicked: {
                 console.log(listModel.get(model.index).name)
             }
+        }
+
+        onItemAdded: (index, item) => {
+                         var newCutLen = listModel.get(index).name.length * scaleNameLen;
+            if (newCutLen > currentCutLen) {
+                             currentCutLen = newCutLen;
+                         }
         }
     }
 
