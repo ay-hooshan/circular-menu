@@ -7,12 +7,16 @@ Item {
     property double cutOuterRadius: 400
     property double cutInnerRadius: 300
     property color cutColor: "red"
+    property double cutLen: cutText.length * 10
     required property double cutStartAngle
-    required property double cutLen
 
+    // functions
     function toDegree (radianAngle) {
         return radianAngle * Math.PI / 180;
     }
+
+    // signals
+    signal cutClicked()
 
     anchors.fill: parent
 
@@ -24,6 +28,7 @@ Item {
 
         // ------------------------ outer circle
         ShapePath {
+            id: cutOuter
     //        strokeWidth: 4
     //        strokeColor: 'blue'
 
@@ -32,8 +37,8 @@ Item {
             PathAngleArc {
                 centerX: 0
                 centerY: 0
-                radiusX: outerRadius
-                radiusY: outerRadius
+                radiusX: cutOuterRadius
+                radiusY: cutOuterRadius
                 startAngle: cutStartAngle
                 sweepAngle: cutLen
             }
@@ -53,8 +58,8 @@ Item {
             PathAngleArc {
                 centerX: 0
                 centerY: 0
-                radiusX: innerRadius
-                radiusY: innerRadius
+                radiusX: cutInnerRadius
+                radiusY: cutInnerRadius
                 startAngle: cutStartAngle
                 sweepAngle: cutLen
             }
@@ -73,11 +78,17 @@ Item {
 
             anchors {
                 centerIn: parent
-                horizontalCenterOffset: (innerRadius + outerRadius) / 2 * Math.cos(toDegree(cutStartAngle + cutLen / 2))
-                verticalCenterOffset: (innerRadius + outerRadius) / 2 * Math.sin(toDegree(cutStartAngle + cutLen / 2))
+                horizontalCenterOffset: (cutInnerRadius + cutOuterRadius) / 2 * Math.cos(toDegree(cutStartAngle + cutLen / 2))
+                verticalCenterOffset: (cutInnerRadius + cutOuterRadius) / 2 * Math.sin(toDegree(cutStartAngle + cutLen / 2))
             }
 
             rotation: 90 + (2 * cutStartAngle + cutLen) / 2
+
+            MouseArea {
+                anchors.fill: parent
+
+                onClicked: cutClicked()
+            }
         }
     }
 }
