@@ -8,12 +8,12 @@ Window {
 
 
     CircularMenu {
-//        outerRadius: 200
+//        outerRadius: 250
 //        innerRadius: 150
 
         PropertyAnimation on outerRadius {
             from: 0
-            to: 200
+            to: 250
             duration: 500
         }
 
@@ -25,13 +25,20 @@ Window {
 
         listModel: ListModel {
             ListElement {
-                name: "Abbas"
+                name: 'Abbas'
                 color: 'blue'
+                iconSource: 'hand.png'
             }
             ListElement {
-                name: "Akbar"
+                name: 'Akbar'
                 color: 'red'
+                iconSource: 'hand.png'
             }
+//            ListElement {
+//                name: 'something'
+//                color: 'tomato'
+//                iconSource: 'hand.png'
+//            }
         }
     }
 
@@ -47,5 +54,10 @@ Window {
 //    ExampleShape1 {}
 //    ExampleShape2 {}
 
+
+//    ExampleMenu {}
+
+
+//    ExampleActoin1 {}
 
 }

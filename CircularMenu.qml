@@ -81,7 +81,7 @@ Item {
             Layout.fillHeight: true
 
             onClicked: {
-                listModel.append({name: nameField.text, color: colorField.text})
+                listModel.append({name: nameField.text, color: colorField.text, icon: 'hand.png'})
             }
         }
 

@@ -1,12 +1,16 @@
 import QtQuick 2.15
 import QtQuick.Shapes
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     // properties
     property string cutText: 'cutText'
+    property color cutColor: 'red'
+    property string cutIconSource: 'hand.png'
     property double cutOuterRadius: 400
     property double cutInnerRadius: 300
-    property color cutColor: "red"
+
     required property double cutStartAngle
     property double cutLen: 90
 
@@ -70,10 +74,8 @@ Item {
         }
 
         // ------------------------ text
-        Text {
-            text: cutText
-//            font.family: 'Roboto'
-            font.pixelSize: 30
+        ColumnLayout {
+
             z: 2
 
             anchors {
@@ -82,12 +84,29 @@ Item {
                 verticalCenterOffset: (cutInnerRadius + cutOuterRadius) / 2 * Math.sin(toDegree(cutStartAngle + cutLen / 2))
             }
 
-            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
+//            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
 
-            MouseArea {
-                anchors.fill: parent
+            Image {
+                width: 28
+                height: 28
+                source: 'hand.png'
 
-                onClicked: cutClicked()
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: cutClicked()
+                }
+            }
+
+            Text {
+                text: cutText
+                font.pixelSize: 30
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: cutClicked()
+                }
             }
         }
     }
