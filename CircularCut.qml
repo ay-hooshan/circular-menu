@@ -6,7 +6,9 @@ import QtQuick.Layouts
 Item {
     // properties
     property string cutText: 'cutText'
-    property color cutColor: 'red'
+    property color cutBackgroundColor: 'transparent'
+    property color cutIconColor: 'blue'
+    property color cutIconHoverColor: 'lightblue'
     property string cutIconSource: 'hand.png'
     property double cutOuterRadius: 400
     property double cutInnerRadius: 300
@@ -36,7 +38,7 @@ Item {
     //        strokeWidth: 4
     //        strokeColor: 'blue'
 
-            fillColor: cutColor
+            fillColor: cutBackgroundColor
 
             PathAngleArc {
                 centerX: 0
@@ -54,8 +56,8 @@ Item {
 
         // ------------------------ inner circle
         ShapePath {
-    //        strokeWidth: 4
-    //        strokeColor: 'blue'
+//            strokeWidth: 4
+//            strokeColor: 'blue'
 
             fillColor: "white"
 
@@ -86,28 +88,60 @@ Item {
 
 //            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
 
-            Image {
+            Button {
+                padding: 0
+//                x: 0
+//                y: 0
                 width: 28
                 height: 28
-                source: 'hand.png'
 
-                MouseArea {
-                    anchors.fill: parent
+                icon {
+                    source: 'hand.png'
+                    width: 50
+                    height: 50
+                    color: hovered ? cutIconHoverColor : cutIconColor
+                }
 
-                    onClicked: cutClicked()
+                hoverEnabled: true
+
+                display: AbstractButton.IconOnly
+
+                background: Rectangle {
+                    color: 'transparent'
+                }
+
+                onClicked: cutClicked()
+
+                PropertyAnimation on width {
+                    from: 0
+                    to: cutLen
+                    duration: 1000
+                    easing.type: Easing.OutExpo
                 }
             }
 
-            Text {
-                text: cutText
-                font.pixelSize: 30
+//            Image {
+//                width: 28
+//                height: 28
+//                source: 'hand.png'
 
-                MouseArea {
-                    anchors.fill: parent
+//                MouseArea {
+//                    anchors.fill: parent
 
-                    onClicked: cutClicked()
-                }
-            }
+//                    onClicked: cutClicked()
+//                }
+//            }
+
+//            Text {
+//                text: cutText
+//                font.pixelSize: 30
+
+//                MouseArea {
+//                    anchors.fill: parent
+
+//                    onClicked: cutClicked()
+//                }
+//            }
         }
     }
 }

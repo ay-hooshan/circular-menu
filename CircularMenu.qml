@@ -28,7 +28,7 @@ Item {
             cutInnerRadius: innerRadius
             cutStartAngle: startAngle + model.index * currentCutLen
             cutLen: currentCutLen
-            cutColor: listModel.get(model.index).color
+            cutIconColor: listModel.get(model.index).color
             onCutClicked: {
                 console.log(listModel.get(model.index).name)
             }
@@ -42,6 +42,8 @@ Item {
         }
     }
 
+
+    // --------------------------- test
     RowLayout {
         id: textFieldsRow
 
@@ -60,7 +62,7 @@ Item {
 
         TextField {
             id: colorField
-            text: 'blue'
+            text: 'orange'
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
@@ -105,12 +107,12 @@ Item {
     Rectangle {
         id: fakeOuterCircle
 
-//        visible: false
+        visible: false
 
         width: outerRadius * 2
         height: outerRadius * 2
         radius: outerRadius
-//        opacity: 0.2
+        opacity: 0.5
         color: 'transparent'
 //        color: 'pink'
         anchors.centerIn: parent
