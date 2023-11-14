@@ -6,7 +6,9 @@ import QtQuick.Layouts
 Item {
     // properties
     property string cutText: 'cutText'
-    property color cutColor: 'red'
+    property color cutBackgroundColor: 'transparent'
+    property color cutIconColor: 'blue'
+    property color cutIconHoverColor: 'lightblue'
     property string cutIconSource: 'hand.png'
     property double cutOuterRadius: 400
     property double cutInnerRadius: 300
@@ -33,10 +35,10 @@ Item {
         // ------------------------ outer circle
         ShapePath {
             id: cutOuter
-    //        strokeWidth: 4
-    //        strokeColor: 'blue'
+            //        strokeWidth: 4
+            //        strokeColor: 'blue'
 
-            fillColor: cutColor
+            fillColor: cutBackgroundColor
 
             PathAngleArc {
                 centerX: 0
@@ -54,10 +56,10 @@ Item {
 
         // ------------------------ inner circle
         ShapePath {
-    //        strokeWidth: 4
-    //        strokeColor: 'blue'
+            //            strokeWidth: 4
+            //            strokeColor: 'blue'
 
-            fillColor: "white"
+            fillColor: 'transparent'
 
             PathAngleArc {
                 centerX: 0
@@ -73,10 +75,11 @@ Item {
             }
         }
 
-        // ------------------------ text
-        ColumnLayout {
-
-            z: 2
+        Button {
+            id: cutButton
+            padding: 0
+            width: 50
+            height: 50
 
             anchors {
                 centerIn: parent
@@ -84,28 +87,50 @@ Item {
                 verticalCenterOffset: (cutInnerRadius + cutOuterRadius) / 2 * Math.sin(toDegree(cutStartAngle + cutLen / 2))
             }
 
-//            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
+            //            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
 
-            Image {
-                width: 28
-                height: 28
+            icon {
                 source: 'hand.png'
-
-                MouseArea {
-                    anchors.fill: parent
-
-                    onClicked: cutClicked()
-                }
+                width: 50
+                height: 50
+                color: hovered ? cutIconHoverColor : cutIconColor
             }
 
-            Text {
-                text: cutText
-                font.pixelSize: 30
+            hoverEnabled: true
 
-                MouseArea {
-                    anchors.fill: parent
+            display: AbstractButton.IconOnly
 
-                    onClicked: cutClicked()
+            background: Rectangle {
+                color: 'transparent'
+            }
+
+            onClicked: cutClicked()
+
+            PropertyAnimation on width {
+                from: 0
+                to: cutLen
+                duration: 1000
+                easing.type: Easing.OutExpo
+            }
+
+            ToolTip {
+                visible: cutButton.hovered
+
+                contentItem: Text {
+                    id: tooltipText
+                    anchors.margins: 7
+                    text: cutText
+                    font.pixelSize: 17
+                    color: 'white'
+                }
+
+                background: Rectangle {
+                    visible: cutButton.hovered
+                    height: tooltipText.height + 14
+                    width: tooltipText.contentWidth + 14
+                    radius: 10
+
+                    color: "#01AED6"
                 }
             }
         }
