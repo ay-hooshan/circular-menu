@@ -4,18 +4,64 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 Item {
-    // properties
+    // ----------------------------------------- properties
+    property ListModel listModel: ListModel{}
     property double outerRadius: 400
     property double innerRadius: 300
-
     property double startAngle: -90 - currentCutLen * listModel.count / 2
     property double currentCutLen: 45
-    readonly property double scaleNameLen: 10
+    property double animationDuration: 2000
 
-    property ListModel listModel: ListModel{}
+    readonly property double scaleNameLen: 10
 
     anchors.fill: parent
 
+
+    // ----------------------------------------- animation
+    PropertyAnimation on outerRadius {
+        id: outerAnimation
+        easing.type: Easing.OutElastic
+        from: 0
+        to: outerRadius
+        duration: parseInt(animationDuration)
+    }
+
+    PropertyAnimation on innerRadius {
+        id: innerAnimation
+        easing.type: Easing.OutElastic
+        from: 0
+        to: innerRadius
+        duration: parseInt(animationDuration)
+    }
+
+    // ----------------------------------------- fake background
+    Rectangle {
+        id: fakeOuterCircle
+
+//        visible: false
+
+        width: outerRadius * 2
+        height: outerRadius * 2
+        radius: outerRadius
+        opacity: 0.5
+        color: 'transparent'
+        //        color: 'pink'
+        anchors.centerIn: parent
+
+        Rectangle {
+            id: fakeInnerCircle
+
+            width: innerRadius * 2
+            height: innerRadius * 2
+            radius: innerRadius
+            opacity: 0.6
+
+            color: 'gold'
+            anchors.centerIn: parent
+        }
+    }
+
+    // ----------------------------------------- Circular Menu
     Repeater {
         anchors.fill: parent
         model: listModel.count
@@ -32,101 +78,6 @@ Item {
             onCutClicked: {
                 console.log(listModel.get(model.index).name)
             }
-        }
-
-        onItemAdded: (index, item) => {
-                         var newCutLen = listModel.get(index).name.length * scaleNameLen;
-            if (newCutLen > currentCutLen) {
-                             currentCutLen = newCutLen;
-                         }
-        }
-    }
-
-
-    // --------------------------- test
-    RowLayout {
-        id: textFieldsRow
-
-        height: 50
-        anchors.bottom: buttonsRow.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.margins: 10
-
-        TextField {
-            id: nameField
-            text: 'add'
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-
-        TextField {
-            id: colorField
-            text: 'orange'
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-        }
-    }
-
-    RowLayout {
-        id: buttonsRow
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.margins: 10
-        height: 50
-
-        Button {
-            id: addButton
-            text: 'add item'
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            onClicked: {
-                listModel.append({name: nameField.text, color: colorField.text, icon: 'hand.png'})
-            }
-        }
-
-        Button {
-            id: remove
-            text: 'remove item'
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            onClicked: {
-                console.log(listModel.count)
-
-                if (listModel.count > 0)
-                    listModel.remove(0)
-            }
-        }
-    }
-
-
-
-    Rectangle {
-        id: fakeOuterCircle
-
-        visible: false
-
-        width: outerRadius * 2
-        height: outerRadius * 2
-        radius: outerRadius
-        opacity: 0.5
-        color: 'transparent'
-//        color: 'pink'
-        anchors.centerIn: parent
-
-        Rectangle {
-            id: fakeInnerCircle
-
-            width: innerRadius * 2
-            height: innerRadius * 2
-            radius: innerRadius
-            opacity: 0.6
-
-            color: 'gold'
-            anchors.centerIn: parent
         }
     }
 }

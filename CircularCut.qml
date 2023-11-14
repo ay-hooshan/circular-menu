@@ -35,8 +35,8 @@ Item {
         // ------------------------ outer circle
         ShapePath {
             id: cutOuter
-    //        strokeWidth: 4
-    //        strokeColor: 'blue'
+            //        strokeWidth: 4
+            //        strokeColor: 'blue'
 
             fillColor: cutBackgroundColor
 
@@ -56,10 +56,10 @@ Item {
 
         // ------------------------ inner circle
         ShapePath {
-//            strokeWidth: 4
-//            strokeColor: 'blue'
+            //            strokeWidth: 4
+            //            strokeColor: 'blue'
 
-            fillColor: "white"
+            fillColor: 'transparent'
 
             PathAngleArc {
                 centerX: 0
@@ -75,10 +75,11 @@ Item {
             }
         }
 
-        // ------------------------ text
-        ColumnLayout {
-
-            z: 2
+        Button {
+            id: cutButton
+            padding: 0
+            width: 50
+            height: 50
 
             anchors {
                 centerIn: parent
@@ -86,62 +87,52 @@ Item {
                 verticalCenterOffset: (cutInnerRadius + cutOuterRadius) / 2 * Math.sin(toDegree(cutStartAngle + cutLen / 2))
             }
 
-//            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
+            //            rotation: 90 + (2 * cutStartAngle + cutLen) / 2
 
-            Button {
-                padding: 0
-//                x: 0
-//                y: 0
-                width: 28
-                height: 28
-
-                icon {
-                    source: 'hand.png'
-                    width: 50
-                    height: 50
-                    color: hovered ? cutIconHoverColor : cutIconColor
-                }
-
-                hoverEnabled: true
-
-                display: AbstractButton.IconOnly
-
-                background: Rectangle {
-                    color: 'transparent'
-                }
-
-                onClicked: cutClicked()
-
-                PropertyAnimation on width {
-                    from: 0
-                    to: cutLen
-                    duration: 1000
-                    easing.type: Easing.OutExpo
-                }
+            icon {
+                source: 'hand.png'
+                width: 50
+                height: 50
+                color: hovered ? cutIconHoverColor : cutIconColor
             }
 
-//            Image {
-//                width: 28
-//                height: 28
-//                source: 'hand.png'
+            hoverEnabled: true
 
-//                MouseArea {
-//                    anchors.fill: parent
+            display: AbstractButton.IconOnly
 
-//                    onClicked: cutClicked()
-//                }
-//            }
+            background: Rectangle {
+                color: 'transparent'
+            }
 
-//            Text {
-//                text: cutText
-//                font.pixelSize: 30
+            onClicked: cutClicked()
 
-//                MouseArea {
-//                    anchors.fill: parent
+            PropertyAnimation on width {
+                from: 0
+                to: cutLen
+                duration: 1000
+                easing.type: Easing.OutExpo
+            }
 
-//                    onClicked: cutClicked()
-//                }
-//            }
+            ToolTip {
+                visible: cutButton.hovered
+
+                contentItem: Text {
+                    id: tooltipText
+                    anchors.margins: 7
+                    text: cutText
+                    font.pixelSize: 17
+                    color: 'white'
+                }
+
+                background: Rectangle {
+                    visible: cutButton.hovered
+                    height: tooltipText.height + 14
+                    width: tooltipText.contentWidth + 14
+                    radius: 10
+
+                    color: "#01AED6"
+                }
+            }
         }
     }
 }
