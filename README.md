@@ -1,1 +1,3 @@
-# circular-menu
+# Circular Menu
+
+Circular Menu QML Component example.
